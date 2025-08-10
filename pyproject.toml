@@ -1,0 +1,16 @@
+[project]
+name = "fxxkeula"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain>=0.3.27",
+    "langchain-deepseek>=0.1.4",
+    "langgraph>=0.6.4",
+    "openai>=1.99.6",
+    "pydantic>=2.11.7",
+    "python-dotenv>=1.1.1",
+    "streamlit>=1.48.0",
+    "tenacity>=9.1.2",
+]
