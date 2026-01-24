@@ -3,10 +3,9 @@ import { useEffect, useState } from 'react';
 interface ScoreGaugeProps {
   score: number;
   grade: string;
-  gradeEmoji: string;
 }
 
-export function ScoreGauge({ score, grade, gradeEmoji }: ScoreGaugeProps) {
+export function ScoreGauge({ score, grade }: ScoreGaugeProps) {
   const [animatedScore, setAnimatedScore] = useState(100);
 
   useEffect(() => {
@@ -79,9 +78,8 @@ export function ScoreGauge({ score, grade, gradeEmoji }: ScoreGaugeProps) {
 
         {/* 中心内容 */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-5xl mb-1">{gradeEmoji}</span>
-          <span className={`text-4xl font-bold ${colors.text}`}>{animatedScore}</span>
-          <span className="text-gray-500 text-sm">/ 100 分</span>
+          <span className={`text-5xl font-black ${colors.text}`}>{animatedScore}</span>
+          <span className="text-gray-500 text-sm mt-1">/ 100 分</span>
         </div>
       </div>
 

@@ -67,65 +67,57 @@ export function analyzeAgreement(text: string): AnalysisResult {
   }
 
   // 生成评级
-  const { grade, gradeEmoji, summary } = getGradeInfo(score, clauses.length);
+  const { grade, summary } = getGradeInfo(score, clauses.length);
 
   return {
     clauses,
     score,
     grade,
-    gradeEmoji,
     summary,
     categoryBreakdown,
   };
 }
 
-function getGradeInfo(score: number, issueCount: number): { grade: string; gradeEmoji: string; summary: string } {
+function getGradeInfo(score: number, issueCount: number): { grade: string; summary: string } {
   if (score >= 90) {
     return {
       grade: 'S',
-      gradeEmoji: '😇',
       summary: '这协议简直是业界良心！要么是慈善机构，要么是你看漏了什么。',
     };
   }
   if (score >= 80) {
     return {
       grade: 'A',
-      gradeEmoji: '😊',
       summary: '还算厚道，只有一些小坑。在当今互联网环境下，已经算是积德行善了。',
     };
   }
   if (score >= 70) {
     return {
       grade: 'B',
-      gradeEmoji: '😐',
       summary: '中规中矩，该有的坑都有，但还没丧心病狂。建议谨慎使用。',
     };
   }
   if (score >= 60) {
     return {
       grade: 'C',
-      gradeEmoji: '😰',
       summary: '坑比较多了，使用前请三思。建议阅读重点条款，保护好自己。',
     };
   }
   if (score >= 40) {
     return {
       grade: 'D',
-      gradeEmoji: '😱',
       summary: `检测到${issueCount}个问题条款，这份协议堪比卖身契。除非必须，否则建议换一家。`,
     };
   }
   if (score >= 20) {
     return {
       grade: 'E',
-      gradeEmoji: '💀',
       summary: '极度危险！这份协议是法律界的恐怖片。签了等于把灵魂抵押出去。',
     };
   }
   return {
     grade: 'F',
-    gradeEmoji: '☠️',
-    summary: '这不是用户协议，这是抢劫宣言！建议截图保留，发微博公开处刑。',
+    summary: '这不是用户协议，这是抢劫宣言！建议截图保留，公开曝光。',
   };
 }
 

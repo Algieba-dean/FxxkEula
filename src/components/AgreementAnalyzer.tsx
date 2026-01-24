@@ -1,27 +1,51 @@
 import { useState } from 'react';
-import { FileText, Sparkles, AlertCircle, Trash2, Copy, CheckCircle } from 'lucide-react';
+import { FileText, Sparkles, AlertCircle, Trash2, Copy, CheckCircle, Bot, Cpu, ChevronDown, Settings } from 'lucide-react';
 import { analyzeAgreement, sampleAgreement } from '../lib/analyzer';
+import { analyzeWithAI, isAIAvailable } from '../lib/ai-service';
+import { AVAILABLE_MODELS, AI_CONFIG, saveAIConfig, type ModelId } from '../lib/ai-config';
 import type { AnalysisResult } from '../lib/types';
 import { ScoreGauge } from './ScoreGauge';
 import { ClauseCard } from './ClauseCard';
 import { CategoryStats } from './CategoryStats';
+import { SettingsPanel, type AISettings } from './SettingsPanel';
+
+type AnalyzeMode = 'local' | 'ai';
 
 export function AgreementAnalyzer() {
   const [inputText, setInputText] = useState('');
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [mode, setMode] = useState<AnalyzeMode>(isAIAvailable() ? 'ai' : 'local');
+  const [selectedModel, setSelectedModel] = useState<ModelId>(AI_CONFIG.model);
+  const [showModelSelect, setShowModelSelect] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!inputText.trim()) return;
     
     setIsAnalyzing(true);
-    // 模拟分析延迟，增加戏剧效果
-    setTimeout(() => {
-      const analysisResult = analyzeAgreement(inputText);
-      setResult(analysisResult);
+    setError(null);
+
+    try {
+      if (mode === 'ai') {
+        const analysisResult = await analyzeWithAI({
+          agreementText: inputText,
+          model: selectedModel,
+        });
+        setResult(analysisResult);
+      } else {
+        // 本地模式，模拟延迟
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const analysisResult = analyzeAgreement(inputText);
+        setResult(analysisResult);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '分析失败，请稍后重试');
+    } finally {
       setIsAnalyzing(false);
-    }, 800);
+    }
   };
 
   const handleLoadSample = () => {
@@ -32,6 +56,14 @@ export function AgreementAnalyzer() {
   const handleClear = () => {
     setInputText('');
     setResult(null);
+    setError(null);
+  };
+
+  const currentModel = AVAILABLE_MODELS.find(m => m.id === selectedModel);
+
+  const handleSaveSettings = (settings: AISettings) => {
+    saveAIConfig(settings);
+    setSelectedModel(settings.model);
   };
 
   const handleCopyResult = () => {
@@ -43,19 +75,88 @@ export function AgreementAnalyzer() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* 头部 */}
-      <header className="py-8 px-4 text-center">
+      <header className="py-8 px-4 text-center relative">
+        {/* 设置按钮 */}
+        <button
+          onClick={() => setShowSettings(true)}
+          className="absolute right-4 top-4 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+          title="API 设置"
+        >
+          <Settings size={20} />
+        </button>
+
         <div className="inline-flex items-center gap-3 mb-4">
-          <span className="text-5xl">🔮</span>
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-yellow-200 via-pink-300 to-purple-400 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-300 via-blue-400 to-indigo-500 bg-clip-text text-transparent">
             协议照妖镜
           </h1>
         </div>
         <p className="text-gray-400 max-w-2xl mx-auto">
           把那些让律师都头疼的用户协议，翻译成你能看懂的人话。<br />
-          <span className="text-yellow-400">⚠️ 纯属娱乐，不构成法律建议</span>
+          <span className="text-amber-400 text-sm">纯属娱乐，不构成法律建议</span>
         </p>
+
+        {/* 模式切换 */}
+        <div className="mt-6 flex items-center justify-center gap-2">
+          <div className="bg-white/10 rounded-xl p-1 flex gap-1">
+            <button
+              onClick={() => setMode('local')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all ${
+                mode === 'local'
+                  ? 'bg-white text-purple-900'
+                  : 'text-gray-300 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              <Cpu size={16} />
+              本地规则
+            </button>
+            <button
+              onClick={() => setMode('ai')}
+              disabled={!isAIAvailable()}
+              className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all ${
+                mode === 'ai'
+                  ? 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white'
+                  : 'text-gray-300 hover:text-white hover:bg-white/10'
+              } disabled:opacity-50 disabled:cursor-not-allowed`}
+            >
+              <Bot size={16} />
+              AI 深度分析
+            </button>
+          </div>
+
+          {/* AI 模型选择 */}
+          {mode === 'ai' && (
+            <div className="relative">
+              <button
+                onClick={() => setShowModelSelect(!showModelSelect)}
+                className="px-3 py-2 rounded-lg bg-white/10 text-gray-300 text-sm flex items-center gap-2 hover:bg-white/20 transition-colors"
+              >
+                {currentModel?.name || selectedModel}
+                <ChevronDown size={14} className={`transition-transform ${showModelSelect ? 'rotate-180' : ''}`} />
+              </button>
+              {showModelSelect && (
+                <div className="absolute top-full mt-2 right-0 bg-slate-800 rounded-xl border border-slate-700 shadow-xl z-50 min-w-[240px] overflow-hidden">
+                  {AVAILABLE_MODELS.map((model) => (
+                    <button
+                      key={model.id}
+                      onClick={() => {
+                        setSelectedModel(model.id);
+                        setShowModelSelect(false);
+                      }}
+                      className={`w-full px-4 py-3 text-left hover:bg-slate-700 transition-colors ${
+                        selectedModel === model.id ? 'bg-slate-700/50' : ''
+                      }`}
+                    >
+                      <div className="text-white text-sm font-medium">{model.name}</div>
+                      <div className="text-gray-400 text-xs">{model.description}</div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </header>
 
       <main className="max-w-6xl mx-auto px-4 pb-12">
@@ -103,18 +204,31 @@ export function AgreementAnalyzer() {
                 >
                   {isAnalyzing ? (
                     <>
-                      <span className="animate-spin">⏳</span>
-                      正在照妖...
+                      <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      {mode === 'ai' ? 'AI 分析中...' : '分析中...'}
                     </>
                   ) : (
                     <>
-                      <Sparkles size={20} />
-                      开始照妖
+                      {mode === 'ai' ? <Bot size={20} /> : <Sparkles size={20} />}
+                      {mode === 'ai' ? 'AI 深度分析' : '开始分析'}
                     </>
                   )}
                 </button>
               </div>
             </div>
+
+            {/* 错误提示 */}
+            {error && (
+              <div className="bg-red-500/10 rounded-xl p-4 border border-red-500/30">
+                <div className="flex gap-3">
+                  <AlertCircle className="text-red-400 shrink-0" size={20} />
+                  <div className="text-sm text-red-200">
+                    <p className="font-bold text-red-300 mb-1">分析出错</p>
+                    <p>{error}</p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* 使用提示 */}
             <div className="bg-yellow-500/10 rounded-xl p-4 border border-yellow-500/30">
@@ -124,7 +238,14 @@ export function AgreementAnalyzer() {
                   <p className="font-bold text-yellow-300 mb-1">使用小贴士</p>
                   <ul className="space-y-1 list-disc list-inside">
                     <li>复制完整的用户协议文本效果最佳</li>
-                    <li>支持中文协议，英文协议识别效果有限</li>
+                    {mode === 'ai' ? (
+                      <>
+                        <li>AI 模式分析更深入，可识别隐晦的不合理条款</li>
+                        <li>可切换不同 AI 模型，获得不同视角的分析</li>
+                      </>
+                    ) : (
+                      <li>本地模式使用预设规则，速度快但覆盖有限</li>
+                    )}
                     <li>结果仅供娱乐参考，重要决策请咨询专业人士</li>
                   </ul>
                 </div>
@@ -139,9 +260,8 @@ export function AgreementAnalyzer() {
                 {/* 评分卡片 */}
                 <div className="bg-white rounded-2xl p-6 shadow-xl">
                   <div className="flex items-start justify-between mb-4">
-                    <h2 className="font-bold text-gray-800 flex items-center gap-2">
-                      <span className="text-2xl">📊</span>
-                      照妖结果
+                    <h2 className="font-bold text-gray-800">
+                      分析结果
                     </h2>
                     <button
                       onClick={handleCopyResult}
@@ -156,7 +276,6 @@ export function AgreementAnalyzer() {
                     <ScoreGauge
                       score={result.score}
                       grade={result.grade}
-                      gradeEmoji={result.gradeEmoji}
                     />
                   </div>
 
@@ -173,8 +292,7 @@ export function AgreementAnalyzer() {
                 {/* 问题条款列表 */}
                 {result.clauses.length > 0 && (
                   <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                    <h2 className="text-white font-bold mb-4 flex items-center gap-2">
-                      <span className="text-xl">🚨</span>
+                    <h2 className="text-white font-bold mb-4">
                       发现 {result.clauses.length} 个问题条款
                     </h2>
                     <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
@@ -188,9 +306,11 @@ export function AgreementAnalyzer() {
             ) : (
               /* 占位状态 */
               <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-12 border border-white/10 flex flex-col items-center justify-center text-center min-h-[400px]">
-                <span className="text-6xl mb-4 opacity-50">🔍</span>
-                <p className="text-gray-400 text-lg mb-2">等待照妖中...</p>
-                <p className="text-gray-500 text-sm">粘贴用户协议，点击"开始照妖"</p>
+                <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4">
+                  <FileText className="text-gray-500" size={32} />
+                </div>
+                <p className="text-gray-400 text-lg mb-2">等待分析</p>
+                <p className="text-gray-500 text-sm">粘贴用户协议，点击"开始分析"</p>
               </div>
             )}
           </div>
@@ -204,10 +324,22 @@ export function AgreementAnalyzer() {
             如需专业法律意见，请咨询执业律师。
           </p>
           <p className="mt-2 text-gray-600">
-            Made with 💜 for fun • 2024
+            Made for fun
           </p>
         </footer>
       </main>
+
+      {/* 设置面板 */}
+      <SettingsPanel
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        onSave={handleSaveSettings}
+        currentSettings={{
+          apiUrl: AI_CONFIG.apiUrl,
+          apiKey: AI_CONFIG.apiKey,
+          model: selectedModel,
+        }}
+      />
     </div>
   );
 }

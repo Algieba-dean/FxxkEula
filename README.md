@@ -1,73 +1,132 @@
-# React + TypeScript + Vite
+# 协议照妖镜
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> 把那些让律师都头疼的用户协议，翻译成你能看懂的人话。
 
-Currently, two official plugins are available:
+一个戏谑风格的用户协议解析工具，帮助用户识别协议中的不合理条款，并以幽默的方式"翻译"成大白话。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**声明：本工具纯属娱乐，不构成任何法律建议。如需专业法律意见，请咨询执业律师。**
 
-## React Compiler
+## 功能特性
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 双模式分析
 
-## Expanding the ESLint configuration
+- **本地规则模式**：使用预设的 21 种条款匹配规则，快速识别常见问题
+- **AI 深度分析模式**：接入大语言模型，深度理解协议语义，识别隐晦的不合理条款
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 自定义 API 配置
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+用户可以在界面右上角点击设置按钮，配置自己的 AI API：
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- 支持 OpenAI 兼容的 API 接口
+- 可自定义 API 地址、密钥和模型
+- 配置自动保存到浏览器本地存储
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 九大分析维度
+
+| 类别     | 说明                         |
+| -------- | ---------------------------- |
+| 隐私窥探 | 信息收集、共享、监控等       |
+| 甩锅免责 | 服务质量、损失责任等         |
+| 权利剥夺 | 单方面决定、用户权利限制等   |
+| 付费陷阱 | 自动续费、不退款、价格变动等 |
+| 随时踢人 | 账号终止、服务暂停等         |
+| 数据榨取 | 商业使用、AI训练等           |
+| 霸王仲裁 | 强制仲裁、管辖权等           |
+| 说改就改 | 协议变更、默认同意等         |
+| 内容霸占 | 用户内容权利、授权转让等     |
+
+### 评分系统
+
+- **S 级 (90-100)**：业界良心
+- **A 级 (80-89)**：还算厚道
+- **B 级 (70-79)**：中规中矩
+- **C 级 (60-69)**：坑比较多
+- **D 级 (40-59)**：堪比卖身契
+- **E 级 (20-39)**：极度危险
+- **F 级 (0-19)**：抢劫宣言
+
+## 快速开始
+
+### 安装依赖
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 配置 AI（可选）
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+方式一：通过界面配置（推荐）
+点击右上角设置按钮，填入 API 地址、密钥和模型名称。
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+方式二：通过环境变量配置
+复制 `.env.example` 为 `.env` 并编辑：
+
+```env
+VITE_AI_API_URL=https://your-ai-gateway.com/v1
+VITE_AI_API_KEY=your-api-key
+VITE_AI_MODEL=deepseek-v3.1
 ```
+
+### 启动开发服务器
+
+```bash
+npm run dev
+```
+
+访问 `http://localhost:5173`
+
+## 项目架构
+
+```text
+src/
+├── lib/
+│   ├── types.ts        # 类型定义
+│   ├── patterns.ts     # 本地规则匹配库（21种条款模式）
+│   ├── analyzer.ts     # 本地分析引擎
+│   ├── ai-config.ts    # AI 配置和模型列表
+│   └── ai-service.ts   # AI 服务层（API调用、Prompt工程）
+├── components/
+│   ├── AgreementAnalyzer.tsx  # 主页面组件
+│   ├── SettingsPanel.tsx      # API 设置面板
+│   ├── ScoreGauge.tsx         # 动画评分仪表盘
+│   ├── ClauseCard.tsx         # 问题条款卡片
+│   └── CategoryStats.tsx      # 分类统计图表
+└── App.tsx
+```
+
+## AI 架构
+
+### 支持的模型
+
+| 模型             | 说明             |
+| ---------------- | ---------------- |
+| DeepSeek V3.1    | 默认模型，性价比高 |
+| DeepSeek R1      | 推理能力强       |
+| GLM 4.1 Flash    | 智谱快速模型     |
+| Kimi K2          | 长文本处理强     |
+| Claude Sonnet 4  | Anthropic 旗舰   |
+| Grok 4.1 Mini    | xAI 轻量模型     |
+
+支持自定义模型名称，可配置任何 OpenAI 兼容的 API。
+
+### Prompt 设计
+
+AI 分析采用结构化 Prompt，包含：
+
+- 分析维度定义（9大类别）
+- 严重程度标准（小坑/中坑/大坑/天坑）
+- 评分规则（100分制 + 7级评价）
+- 输出格式约束（JSON Schema）
+- 风格要求（戏谑、人话翻译、吐槽）
+
+## 技术栈
+
+- **前端框架**：React 19 + TypeScript
+- **构建工具**：Vite 5
+- **样式方案**：TailwindCSS 3
+- **图标库**：Lucide React
+- **AI 接口**：OpenAI 兼容协议
+
+## License
+
+MIT

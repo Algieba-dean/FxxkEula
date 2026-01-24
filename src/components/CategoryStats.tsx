@@ -13,7 +13,7 @@ export function CategoryStats({ breakdown }: CategoryStatsProps) {
   if (categories.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
-        <p>🎉 暂未检测到明显问题条款</p>
+        <p>暂未检测到明显问题条款</p>
       </div>
     );
   }

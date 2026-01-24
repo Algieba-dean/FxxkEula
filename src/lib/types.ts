@@ -31,21 +31,20 @@ export interface AnalysisResult {
   clauses: AnalyzedClause[];
   score: number;
   grade: string;
-  gradeEmoji: string;
   summary: string;
   categoryBreakdown: Record<ClauseCategory, number>;
 }
 
 export const categoryLabels: Record<ClauseCategory, string> = {
-  privacy: '🔍 隐私窥探',
-  liability: '🛡️ 甩锅免责',
-  rights: '⛓️ 权利剥夺',
-  payment: '💸 付费陷阱',
-  termination: '🚪 随时踢人',
-  data: '📊 数据榨取',
-  arbitration: '⚖️ 霸王仲裁',
-  modification: '📝 说改就改',
-  content: '🎨 内容霸占',
+  privacy: '隐私窥探',
+  liability: '甩锅免责',
+  rights: '权利剥夺',
+  payment: '付费陷阱',
+  termination: '随时踢人',
+  data: '数据榨取',
+  arbitration: '霸王仲裁',
+  modification: '说改就改',
+  content: '内容霸占',
 };
 
 export const severityLabels: Record<string, { label: string; color: string }> = {

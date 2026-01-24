@@ -50,7 +50,7 @@ export function ClauseCard({ clause, index }: ClauseCardProps) {
         <div className="px-4 pb-4 space-y-3 animate-fadeIn">
           {/* 原文 */}
           <div className="bg-gray-100 rounded-lg p-3">
-            <p className="text-xs text-gray-500 mb-1">📄 原文条款</p>
+            <p className="text-xs text-gray-500 mb-1 font-medium">原文条款</p>
             <p className="text-sm text-gray-700 leading-relaxed">
               "{originalText.length > 200 ? originalText.substring(0, 200) + '...' : originalText}"
             </p>
@@ -58,13 +58,14 @@ export function ClauseCard({ clause, index }: ClauseCardProps) {
 
           {/* 人话翻译 */}
           <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
-            <p className="text-xs text-blue-600 mb-1">💬 人话翻译</p>
+            <p className="text-xs text-blue-600 mb-1 font-medium">人话翻译</p>
             <p className="text-sm text-blue-800 font-medium">{matchedPattern.humanTranslation}</p>
           </div>
 
           {/* 吐槽 */}
-          <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-3 border border-purple-200">
-            <p className="text-sm text-purple-800">{matchedPattern.roastComment}</p>
+          <div className="bg-amber-50 rounded-lg p-3 border border-amber-200">
+            <p className="text-xs text-amber-600 mb-1 font-medium">犀利点评</p>
+            <p className="text-sm text-amber-800">{matchedPattern.roastComment}</p>
           </div>
 
           {/* 扣分 */}

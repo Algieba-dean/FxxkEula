@@ -14,7 +14,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'high',
     title: '信息收集大礼包',
     humanTranslation: '翻译：我们会把你的各种信息都收走，至于收多少、怎么用，我们说了算。',
-    roastComment: '🎣 恭喜！您已被全方位监控，连您早餐吃了什么都可能被记录',
+    roastComment: '恭喜，您已被全方位监控，连您早餐吃了什么都可能被记录',
     scoreImpact: -15,
   },
   {
@@ -28,7 +28,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'high',
     title: '信息批发商',
     humanTranslation: '翻译：你的信息不只我们用，我们的"朋友们"也想看看。',
-    roastComment: '🏪 您的隐私正在被批发，买一送N，童叟无欺',
+    roastComment: '您的隐私正在被批发，买一送N，童叟无欺',
     scoreImpact: -20,
   },
   {
@@ -42,7 +42,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'critical',
     title: '数据永生术',
     humanTranslation: '翻译：就算你跑了，你的数据还是我的。删号？不存在的。',
-    roastComment: '🧟 您的数据将获得永生，比您的账号活得还久',
+    roastComment: '您的数据将获得永生，比您的账号活得还久',
     scoreImpact: -25,
   },
 
@@ -58,7 +58,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'medium',
     title: '薛定谔的服务',
     humanTranslation: '翻译：服务好不好用？随缘吧。出了问题别找我。',
-    roastComment: '🎲 服务质量全靠运气，今天能用算您赚到',
+    roastComment: '服务质量全靠运气，今天能用算您赚到',
     scoreImpact: -10,
   },
   {
@@ -72,7 +72,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'high',
     title: '万能免责牌',
     humanTranslation: '翻译：出事了？那肯定不是我们的锅，是老天爷/黑客/隔壁老王的问题。',
-    roastComment: '🃏 免责理由千千万，反正不是我们的错',
+    roastComment: '免责理由千千万，反正不是我们的错',
     scoreImpact: -15,
   },
 
@@ -88,7 +88,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'critical',
     title: '霸道总裁条款',
     humanTranslation: '翻译：我想怎样就怎样，不用跟你商量，有意见？憋着。',
-    roastComment: '👑 您在这里没有人权，只有被支配的份',
+    roastComment: '您在这里没有人权，只有被支配的份',
     scoreImpact: -25,
   },
   {
@@ -102,7 +102,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'critical',
     title: '签字画押',
     humanTranslation: '翻译：点了同意就等于签了卖身契，以后出事别想告我。',
-    roastComment: '📜 恭喜您自愿放弃了宪法赋予的部分权利',
+    roastComment: '恭喜您自愿放弃了宪法赋予的部分权利',
     scoreImpact: -30,
   },
 
@@ -118,7 +118,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'high',
     title: '无限循环扣款机',
     humanTranslation: '翻译：只要你不主动关，我们就一直扣钱，扣到天荒地老。',
-    roastComment: '🔄 您的钱包已设置为自动失血模式',
+    roastComment: '您的钱包已设置为自动失血模式',
     scoreImpact: -20,
   },
   {
@@ -132,7 +132,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'high',
     title: '貔貅条款',
     humanTranslation: '翻译：钱进了我口袋就是我的了，别想拿回去。',
-    roastComment: '🐉 您的钱已进入黑洞，连光都逃不出来',
+    roastComment: '您的钱已进入黑洞，连光都逃不出来',
     scoreImpact: -20,
   },
   {
@@ -146,7 +146,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'medium',
     title: '价格过山车',
     humanTranslation: '翻译：今天这个价，明天什么价，看我心情。',
-    roastComment: '🎢 价格随心情波动，建议购买前先看黄历',
+    roastComment: '价格随心情波动，建议购买前先看黄历',
     scoreImpact: -10,
   },
 
@@ -162,7 +162,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'critical',
     title: '随时踢人条款',
     humanTranslation: '翻译：我高兴就让你用，不高兴就把你踢出去，不需要理由。',
-    roastComment: '🚪 您随时可能被请出去，连再见都来不及说',
+    roastComment: '您随时可能被请出去，连再见都来不及说',
     scoreImpact: -25,
   },
 
@@ -178,7 +178,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'high',
     title: '韭菜培养皿',
     humanTranslation: '翻译：研究你的喜好，然后精准收割你的钱包。',
-    roastComment: '🌱 您的每次点击都在帮助他们更精准地掏空您',
+    roastComment: '您的每次点击都在帮助他们更精准地掏空您',
     scoreImpact: -15,
   },
   {
@@ -192,7 +192,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'medium',
     title: 'AI投喂条款',
     humanTranslation: '翻译：你的数据将成为我们AI的口粮，免费劳动力就是你。',
-    roastComment: '🤖 恭喜！您正在免费为人工智能打工',
+    roastComment: '恭喜，您正在免费为人工智能打工',
     scoreImpact: -10,
   },
 
@@ -208,7 +208,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'high',
     title: '私了条款',
     humanTranslation: '翻译：有纠纷？别去法院，来我们指定的地方"调解"。',
-    roastComment: '⚖️ 裁判是他们请的，您觉得谁会赢？',
+    roastComment: '裁判是他们请的，您觉得谁会赢？',
     scoreImpact: -20,
   },
   {
@@ -222,7 +222,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'medium',
     title: '主场优势',
     humanTranslation: '翻译：要打官司？来我们的地盘，用对我们有利的规则。',
-    roastComment: '🏟️ 客场作战，您的胜率约等于国足',
+    roastComment: '客场作战，您的胜率约等于国足',
     scoreImpact: -10,
   },
 
@@ -238,7 +238,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'critical',
     title: '薛定谔的协议',
     humanTranslation: '翻译：今天签的协议明天可能就变了，变成什么样子你不用知道。',
-    roastComment: '📝 协议内容是个谜，每次打开都有惊喜',
+    roastComment: '协议内容是个谜，每次打开都有惊喜',
     scoreImpact: -25,
   },
   {
@@ -252,7 +252,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'high',
     title: '沉默即同意',
     humanTranslation: '翻译：你不说话就是同意了，不同意？那你别用。',
-    roastComment: '🤐 沉默是金？不，沉默是同意被宰',
+    roastComment: '沉默是金？不，沉默是同意被宰',
     scoreImpact: -15,
   },
 
@@ -268,7 +268,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'critical',
     title: '白嫖创作者条款',
     humanTranslation: '翻译：你发的东西都是我的，我想怎么用就怎么用，还不用付钱。',
-    roastComment: '🎨 您的才华正在被免费商用，而您连个署名都没有',
+    roastComment: '您的才华正在被免费商用，而您连个署名都没有',
     scoreImpact: -30,
   },
   {
@@ -282,7 +282,7 @@ export const clausePatterns: ClausePattern[] = [
     severity: 'high',
     title: '内容转卖条款',
     humanTranslation: '翻译：你的内容我不但自己用，还能转手卖给别人。',
-    roastComment: '💼 您的创作正在被打包出售，二手贩子都馋哭了',
+    roastComment: '您的创作正在被打包出售，二手贩子都馋哭了',
     scoreImpact: -20,
   },
 ];
